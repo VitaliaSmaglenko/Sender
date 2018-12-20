@@ -1,0 +1,12 @@
+{
+    "name": "app-mailer-example",
+    "description": "Simple PHP mail example",
+    "license": "MIT",
+    "require": {
+        "phpmailer/phpmailer": "*",
+        "swiftmailer/swiftmailer" : "*"
+    },
+    "autoload": {
+    },
+    "minimum-stability": "dev"
+}
