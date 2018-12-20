@@ -19,7 +19,7 @@ class Sender
         $message = new SwiftMailerTransport();
         $message = $message->getMessage();
         $result = $mailer->send($message);
-        //header('Location: /protected/view/mailer.php');
+
     }
 
 }

@@ -6,24 +6,9 @@ require_once __DIR__ . '/sender/vendor/autoload.php';
 
 include 'sender/Sender.php';
 
-include_once ('sender/Render.php');
-
-
-$message = array(
-    'fromEmail' => 'john@doe.com',
-    'fromName'=>'John Doe',
-    'subject' => 'Wonderful Subject',
-    'firstName' => 'Dear user',
-    'email'=> 'vitaliasmaglenko@gmail.com'
-);
-
-$render = new Render();
-$render->rendering('mailer', $message);
-
-//$ob = new Sender();
-
-//$ob->send();
-unset($_POST);
+$ob = new Sender();
+$ob->send();
+echo 'start';
 
 
 

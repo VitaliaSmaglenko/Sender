@@ -1,18 +1,14 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Виталия
- * Date: 18.12.2018
- * Time: 21:29
- */
 include ('TransportInterface.php');
+include_once ('Render.php');
 
 class SwiftMailerTransport implements TransportInterface
 {
     private $config;
     private $mailer;
     private $message;
+
 
     public function __construct()
     {
@@ -85,11 +81,17 @@ class SwiftMailerTransport implements TransportInterface
 
 
     public function createMessage(){
+        $params = new Render();
+        $params = $params->getParameters();
 
-        $message = (new Swift_Message('Wonderful Subject'))
-            ->setFrom(['john@doe.com' => 'John Doe'])
-            ->setTo([$_POST['email'], $_POST['email'] => $_POST['name']])
-            ->setBody($_POST['msg'])
+        $page = new Render();
+        $page = $page->renderPhpFile();
+        // var_dump($page);
+        $message = (new Swift_Message($params['subject']))
+            ->setFrom([$params['fromEmail'] => $params['fromName']])
+            ->setTo([$params['email'], $params['email'] =>$params['firstName']])
+            ->setBody($page, 'text/html')
+
         ;
 
         return $message;
