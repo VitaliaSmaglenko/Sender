@@ -8,5 +8,5 @@
  */
 interface TransportInterface
 {
-    public function createTransport();
+    public function createTransport($config);
 }

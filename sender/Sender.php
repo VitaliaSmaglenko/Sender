@@ -12,12 +12,14 @@ require_once ('SwiftMailerTransport.php');
 class Sender
 {
 
-      public function send()
-    {
+      public function send($view, $config)
+      {
+        $params = include($view);
+        $config = include($config);
         $mailer = new SwiftMailerTransport();
-        $mailer = $mailer->getMailer();
+        $mailer = $mailer->getMailer($config);
         $message = new SwiftMailerTransport();
-        $message = $message->getMessage();
+        $message = $message->getMessage( $params);
         $result = $mailer->send($message);
 
     }

@@ -7,7 +7,7 @@ require_once __DIR__ . '/sender/vendor/autoload.php';
 include 'sender/Sender.php';
 
 $ob = new Sender();
-$ob->send();
+$ob->send('emailData.php', 'config.php');
 echo 'start';
 
 

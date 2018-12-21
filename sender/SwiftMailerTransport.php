@@ -5,33 +5,13 @@ include_once ('Render.php');
 
 class SwiftMailerTransport implements TransportInterface
 {
-    private $config;
     private $mailer;
     private $message;
 
 
-    public function __construct()
-    {
-        $this->config = $this->fixConfig();
 
-    }
+    public function createTransport($config){
 
-    protected function fixConfig(){
-
-        $config = include_once ('config.php');
-        return $config;
-    }
-
-    protected function getConfig()
-    {
-        return $this->config;
-    }
-
-
-
-    public function createTransport(){
-
-        $config = $this->getConfig();
 
         $transport = (new Swift_SmtpTransport($config['host'], $config['port']))
             ->setUsername($config['username'])
@@ -44,49 +24,46 @@ class SwiftMailerTransport implements TransportInterface
     }
 
 
-    public function getTransport()
+    public function getTransport($config)
     {
-        $transport = $this->createTransport();
+        $transport = $this->createTransport($config);
         return $transport;
     }
 
 
-    protected function createMailer()
+    protected function createMailer($config)
 
     {
-        $transport = $this->getTransport();
+        $transport = $this->getTransport($config);
         $mailer = new Swift_Mailer($transport);
         return $mailer;
     }
 
 
-    public function getMailer()
+    public function getMailer($config)
     {
         if (null == $this->mailer) {
-            $this->mailer = $this->createMailer();
+            $this->mailer = $this->createMailer($config);
         }
 
         return $this->mailer;
     }
 
 
-    public function getMessage()
+    public function getMessage($params)
     {
         if (null == $this->message) {
-            $this->message = $this->createMessage();
+            $this->message = $this->createMessage( $params);
         }
 
         return $this->message;
     }
 
 
-    public function createMessage(){
-        $params = new Render();
-        $params = $params->getParameters();
+    public function createMessage($params){
 
         $page = new Render();
-        $page = $page->renderPhpFile();
-        // var_dump($page);
+        $page = $page->renderPhpFile($params);
         $message = (new Swift_Message($params['subject']))
             ->setFrom([$params['fromEmail'] => $params['fromName']])
             ->setTo([$params['email'], $params['email'] =>$params['firstName']])
